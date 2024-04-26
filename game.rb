@@ -81,8 +81,36 @@ def print_menu(moves)
   puts '? - help'
 end
 
-def get_user_input
+def users_input
   $stdin.gets.chomp
+end
+
+def print_hmac_and_menu(moves, hmac)
+  puts "HMAC: #{hmac}"
+  print_menu(moves)
+  puts 'Enter your move:'
+end
+
+def handle_user_input(user_input, moves, game_rules, computer_move, key)
+  if user_input == '?'
+    help_table = HelpTable.generate_table(moves, game_rules.rules)
+    print_table(help_table)
+  elsif user_input.to_i < 1 || user_input.to_i > moves.length
+    puts "Invalid input. Please enter a valid move or '?' for help."
+  else
+    player_move = user_input.to_i - 1
+    winner = game_rules.get_winner(player_move, computer_move)
+    puts "Your move: #{moves[player_move]}"
+    puts "Computer move: #{moves[computer_move]}"
+    puts "Result: #{if winner == 'Draw'
+                      'Draw'
+                    else
+                      winner == 'Win' ? 'You win!' : 'You lose!'
+                    end}"
+    puts "HMAC key: #{key}"
+  end
+
+  puts "\nEnter your move:"
 end
 
 def play_game(moves)
@@ -91,36 +119,15 @@ def play_game(moves)
   hmac = HMACGenerator.generate_hmac(key, computer_move.to_s)
   game_rules = GameRules.new(moves)
 
-  puts "HMAC: #{hmac}"
-  print_menu(moves)
-  puts 'Enter your move:'
+  print_hmac_and_menu(moves, hmac)
 
-  user_input = get_user_input
+  user_input = users_input
   while user_input != '0'
-    if user_input == '?'
-      help_table = HelpTable.generate_table(moves, game_rules.rules)
-      print_table(help_table)
-    elsif user_input.to_i < 1 || user_input.to_i > moves.length
-      puts "Invalid input. Please enter a valid move or '?' for help."
-    else
-      player_move = user_input.to_i - 1
-      winner = game_rules.get_winner(player_move, computer_move)
-      puts "Your move: #{moves[player_move]}"
-      puts "Computer move: #{moves[computer_move]}"
-      puts "Result: #{if winner == 'Draw'
-                        'Draw'
-                      else
-                        winner == 'Win' ? 'You win!' : 'You lose!'
-                      end}"
-      puts "HMAC key: #{key}"
-    end
-
-    puts "\nEnter your move:"
-    user_input = get_user_input
+    handle_user_input(user_input, moves, game_rules, computer_move, key)
+    user_input = users_input
   end
 end
 
-# Command line arguments are passed as moves
 moves = ARGV
 if moves.length < 3 || moves.length.even? || moves.uniq.length != moves.length
   puts 'Error: Incorrect number of moves or duplicate moves.'

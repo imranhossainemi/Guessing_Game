@@ -1,5 +1,4 @@
 # Guessing_Game
-
 <a name="readme-top"></a>
 <div align="center">
   <img src="200w.gif" alt="logo" width="140"  height="auto" />

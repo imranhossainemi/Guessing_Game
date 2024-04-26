@@ -99,18 +99,18 @@ def handle_user_input(user_input, moves, game_rules, computer_move, key)
     puts "Invalid input. Please enter a valid move or '?' for help."
   else
     player_move = user_input.to_i - 1
-  winner = game_rules.get_winner(player_move, computer_move)
-  puts "Your move: #{moves[player_move]}"
-  puts "Computer move: #{moves[computer_move]}"
-  puts "Result: #{if winner == 'Draw'
-                    'Draw'
-                  else
-                    winner == 'Win' ? 'You win!' : 'You lose!'
-                  end}"
-  puts "HMAC key: #{key}"
-end
+    winner = game_rules.get_winner(player_move, computer_move)
+    puts "Your move: #{moves[player_move]}"
+    puts "Computer move: #{moves[computer_move]}"
+    puts "Result: #{if winner == 'Draw'
+                      'Draw'
+                    else
+                      winner == 'Win' ? 'You win!' : 'You lose!'
+                    end}"
+    puts "HMAC key: #{key}"
+  end
 
-puts "\nEnter your move:"
+  puts "\nEnter your move:"
 end
 
 def play_game(moves)

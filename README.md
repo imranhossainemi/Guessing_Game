@@ -21,7 +21,6 @@
   - [Install](#install)
   - [Usage](#usage)
 - [👥 Authors](#authors)
-- [⭐️ Show your support](#support)
 - [🙏 Acknowledgements](#acknowledgements)
 - [📝 License](#license)
 
